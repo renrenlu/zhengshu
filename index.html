@@ -1,0 +1,1597 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>马侨屿个人获奖档案</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fff9ea;
+      --surface: #fffef8;
+      --surface-2: #f8f3e5;
+      --ink: #202321;
+      --muted: #676a63;
+      --line: #e6dec8;
+      --red: #6fba42;
+      --gold: #6fba42;
+      --teal: #6fba42;
+      --blue: #6fba42;
+      --blue-dark: #5aa033;
+      --violet: #6fba42;
+      --shadow: 0 16px 44px rgba(74, 117, 40, 0.1);
+      --radius: 8px;
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    .app {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px clamp(18px, 4vw, 48px);
+      background: rgba(248, 248, 244, 0.92);
+      border-bottom: 1px solid rgba(230, 222, 200, 0.86);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border: 2px solid var(--blue);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--ink);
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: clamp(18px, 2.4vw, 24px);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .brand-sub {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .icon-btn,
+    .text-btn,
+    .chip {
+      border: 1px solid var(--line);
+      background: rgba(255, 254, 248, 0.86);
+      color: var(--ink);
+      border-radius: var(--radius);
+      min-height: 38px;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
+    }
+
+    .icon-btn {
+      width: 40px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .text-btn {
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .icon-btn:hover,
+    .text-btn:hover,
+    .chip:hover {
+      transform: translateY(-1px);
+      border-color: rgba(111, 186, 66, 0.38);
+      background: var(--surface);
+    }
+
+    .primary {
+      border-color: transparent;
+      background: var(--blue-dark);
+      color: #fff;
+    }
+
+    .primary:hover {
+      background: #4f8d2d;
+      color: #fff;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+      gap: clamp(18px, 3vw, 32px);
+      width: min(1360px, 100%);
+      margin: 0 auto;
+      padding: clamp(18px, 3.4vw, 42px);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 84px;
+      align-self: start;
+      display: grid;
+      gap: 16px;
+      max-height: calc(100vh - 104px);
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .panel,
+    .award-card,
+    .page-tile,
+    .stat,
+    .timeline-item {
+      background: rgba(255, 254, 248, 0.96);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+    }
+
+    .panel {
+      padding: 14px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .search {
+      width: 100%;
+      min-height: 42px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(111, 186, 66, 0.16);
+    }
+
+    .chip-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      min-height: 34px;
+      padding: 0 10px;
+      color: var(--muted);
+    }
+
+    .chip.active {
+      border-color: transparent;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .chip-count {
+      margin-left: 6px;
+      opacity: 0.78;
+      font-size: 12px;
+    }
+
+    .filter-story {
+      border-top: 3px solid var(--blue);
+      background: var(--surface);
+    }
+
+    .mini-reset {
+      border: 0;
+      background: transparent;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 750;
+      padding: 0;
+    }
+
+    .filter-summary {
+      display: grid;
+      gap: 12px;
+    }
+
+    .filter-summary strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .filter-summary p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .mini-toggle {
+      width: fit-content;
+      min-height: 30px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .mini-item {
+      display: grid;
+      gap: 3px;
+      width: 100%;
+      min-height: 48px;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-2);
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .mini-item b {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 12px;
+    }
+
+    .mini-item span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .main {
+      display: grid;
+      gap: clamp(18px, 3vw, 30px);
+      min-width: 0;
+    }
+
+    .mobile-filter {
+      display: none;
+    }
+
+    .certificate-strip {
+      overflow: hidden;
+    }
+
+    .cert-strip-track {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 2px 2px 8px;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .cert-strip-track::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .cert-strip-track::-webkit-scrollbar-thumb {
+      background: rgba(111, 186, 66, 0.38);
+      border-radius: 99px;
+    }
+
+    .cert-thumb {
+      display: grid;
+      gap: 6px;
+      width: 92px;
+      flex: 0 0 92px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-2);
+      color: var(--ink);
+      text-align: center;
+      scroll-snap-align: start;
+    }
+
+    .cert-thumb img {
+      display: block;
+      width: 100%;
+      height: 92px;
+      border-radius: 6px;
+      background: #fff;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .cert-thumb span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(18px, 3vw, 30px);
+      align-items: stretch;
+      min-height: 320px;
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 22px;
+      padding: clamp(20px, 3vw, 30px);
+      background: rgba(255, 254, 248, 0.97);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 7px 10px;
+      border: 1px solid rgba(222, 205, 128, 0.72);
+      border-radius: var(--radius);
+      color: #4e4729;
+      background: #fff7cf;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .hero h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(34px, 4.8vw, 58px);
+      font-weight: 850;
+      line-height: 1.14;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.6vw, 19px);
+      line-height: 1.8;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(86px, 1fr));
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat {
+      min-height: 76px;
+      padding: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: clamp(22px, 2.6vw, 30px);
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .spotlight {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .page-preview {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid rgba(22, 32, 42, 0.12);
+      background: #fff;
+      box-shadow: var(--shadow);
+      min-height: 320px;
+    }
+
+    .page-preview img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: top center;
+    }
+
+    .page-badge {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      padding: 6px 10px;
+      border-radius: var(--radius);
+      background: rgba(38, 38, 38, 0.78);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 0 2px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: clamp(22px, 2.4vw, 30px);
+    }
+
+    .section-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .select {
+      min-height: 38px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .timeline-item {
+      min-height: 152px;
+      padding: 16px;
+      border-top: 4px solid var(--blue);
+    }
+
+    .timeline-item:nth-child(2) {
+      border-top-color: var(--red);
+    }
+
+    .timeline-item:nth-child(3) {
+      border-top-color: var(--teal);
+    }
+
+    .timeline-item b {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 22px;
+    }
+
+    .timeline-item span {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .awards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .award-card {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      min-height: 250px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .award-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 4px;
+      background: var(--blue);
+    }
+
+    .award-card[data-level="top"]::before {
+      background: var(--gold);
+    }
+
+    .award-card[data-level="second"]::before {
+      background: var(--blue);
+    }
+
+    .award-card[data-level="third"]::before {
+      background: var(--violet);
+    }
+
+    .award-card[data-level="cert"]::before {
+      background: var(--teal);
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .serial {
+      display: inline-grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--blue);
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .award-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-content: start;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 8px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      color: #4f5d6a;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .award-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 38px;
+    }
+
+    .link-btn {
+      border: 1px solid rgba(22, 32, 42, 0.12);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--blue);
+      min-height: 34px;
+      padding: 0 10px;
+      font-weight: 750;
+    }
+
+    .link-btn:hover {
+      border-color: rgba(45, 95, 154, 0.35);
+      background: rgba(111, 186, 66, 0.08);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .pdf-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+      padding: 16px;
+      background: rgba(255, 254, 248, 0.96);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+    }
+
+    .pdf-card h4 {
+      margin: 0;
+      font-size: clamp(20px, 2.4vw, 28px);
+    }
+
+    .pdf-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .pdf-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pdf-pages {
+      display: none;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .pdf-pages.open {
+      display: grid;
+    }
+
+    .page-tile {
+      border: 0;
+      padding: 0;
+      overflow: hidden;
+      text-align: left;
+      min-height: 230px;
+      background: #fff;
+    }
+
+    .page-tile img {
+      width: 100%;
+      aspect-ratio: 595 / 842;
+      object-fit: contain;
+      object-position: top;
+      display: block;
+      border-bottom: 1px solid rgba(22, 32, 42, 0.1);
+      background: #f8fafc;
+    }
+
+    .page-tile span {
+      display: block;
+      padding: 10px 12px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .empty {
+      display: none;
+      padding: 28px;
+      border: 1px dashed rgba(22, 32, 42, 0.2);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.7);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty.show {
+      display: block;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 50;
+      padding: clamp(16px, 3vw, 34px);
+      background: rgba(12, 18, 24, 0.74);
+    }
+
+    .modal.open {
+      display: grid;
+    }
+
+    .modal-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      width: min(1100px, 100%);
+      max-height: 94vh;
+      background: #f9fafb;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.32);
+    }
+
+    .modal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .modal-tools {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .modal-body {
+      overflow: auto;
+      display: grid;
+      place-items: start center;
+      padding: 16px;
+      background: #e8edf1;
+    }
+
+    .modal-body img {
+      width: min(900px, 100%);
+      height: auto;
+      display: block;
+      background: #fff;
+      box-shadow: 0 12px 34px rgba(0,0,0,0.14);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 80;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: #fff;
+      box-shadow: var(--shadow);
+      transition: opacity 180ms ease, transform 180ms ease;
+      font-size: 14px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 1180px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        max-height: none;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        padding-right: 0;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .spotlight {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .page-preview {
+        max-height: 520px;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .topbar {
+        align-items: center;
+        flex-direction: row;
+        padding: 10px 14px;
+      }
+
+      .top-actions {
+        justify-content: flex-end;
+        gap: 6px;
+      }
+
+      .text-btn {
+        min-height: 36px;
+        padding: 0 10px;
+        font-size: 12px;
+      }
+
+      .brand {
+        gap: 8px;
+      }
+
+      .brand-mark {
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+      }
+
+      .brand-sub {
+        display: none;
+      }
+
+      .shell {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 12px 14px 28px;
+      }
+
+      .main {
+        order: 1;
+        gap: 18px;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .mobile-filter {
+        display: grid;
+        gap: 10px;
+      }
+
+      .sidebar,
+      .timeline,
+      .awards,
+      .gallery,
+      .pdf-pages {
+        grid-template-columns: 1fr;
+      }
+
+      .panel,
+      .award-card,
+      .timeline-item,
+      .page-tile,
+      .pdf-card,
+      .hero-copy,
+      .page-preview {
+        box-shadow: 0 8px 22px rgba(88, 73, 43, 0.07);
+      }
+
+      .pdf-card {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .stat {
+        min-width: 0;
+        min-height: 62px;
+        padding: 8px 6px;
+      }
+
+      .stat strong {
+        font-size: 20px;
+      }
+
+      .stat span {
+        font-size: 10px;
+      }
+
+      .brand-title {
+        white-space: normal;
+        font-size: 15px;
+      }
+
+      .hero-copy {
+        padding: 28px 22px;
+      }
+
+      .hero h2 {
+        font-size: 38px;
+        line-height: 1.16;
+      }
+
+      .hero p {
+        font-size: 17px;
+        line-height: 1.75;
+      }
+
+      .eyebrow {
+        margin-bottom: 20px;
+        padding: 8px 14px;
+        font-size: 14px;
+      }
+
+      .chip,
+      .search,
+      .select,
+      .link-btn {
+        min-height: 42px;
+      }
+
+      .section-head h3 {
+        font-size: 28px;
+      }
+
+      .section-head {
+        align-items: stretch;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .sidebar,
+      .modal,
+      .toast,
+      .link-btn,
+      .text-btn,
+      .icon-btn {
+        display: none !important;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      .shell {
+        display: block;
+        padding: 0;
+      }
+
+      .award-card,
+      .panel,
+      .stat,
+      .timeline-item {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">奖</div>
+        <div>
+          <h1 class="brand-title">马侨屿个人获奖档案</h1>
+          <p class="brand-sub">机器人 · 无人机 · 人工智能 · 科技创新</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="text-btn" id="copySummary" type="button" title="复制荣誉简介">复制简介</button>
+        <button class="text-btn primary" id="showAllCerts" type="button" title="查看证书 PDF 表格">证书PDF</button>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar" aria-label="筛选">
+        <section class="panel certificate-strip">
+          <h2 class="panel-title">证书</h2>
+          <div class="cert-strip-track" id="certificateStrip"></div>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel-title">检索</h2>
+          <input class="search" id="searchInput" type="search" placeholder="赛事、地点、发证单位">
+        </section>
+
+        <section class="panel">
+          <h2 class="panel-title">方向</h2>
+          <div class="chip-grid" id="categoryFilters"></div>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel-title">结果</h2>
+          <div class="chip-grid" id="awardFilters"></div>
+        </section>
+
+        <section class="panel filter-story">
+          <h2 class="panel-title">
+            <span>当前精选</span>
+            <button class="mini-reset" id="resetFilters" type="button">清空</button>
+          </h2>
+          <div class="filter-summary" id="filterStory"></div>
+        </section>
+      </aside>
+
+      <main class="main">
+        <section class="hero" aria-label="荣誉总览">
+          <div class="hero-copy">
+            <div>
+              <div class="eyebrow">2023-2025 获奖记录</div>
+              <h2>从竞赛现场到全国赛场的持续进阶</h2>
+              <p>20 项获奖与等级认证，覆盖机器人竞赛、无人机挑战、AI 编程、信息素养与科技创新项目，形成了清晰的技术兴趣和实践成长轨迹。</p>
+            </div>
+            <div class="stat-grid" id="stats"></div>
+          </div>
+
+        </section>
+
+        <section class="mobile-filter" aria-label="手机筛选">
+          <section class="panel certificate-strip">
+            <h2 class="panel-title">证书</h2>
+            <div class="cert-strip-track" id="mobileCertificateStrip"></div>
+          </section>
+
+          <section class="panel">
+            <h2 class="panel-title">检索</h2>
+            <input class="search" id="mobileSearchInput" type="search" placeholder="赛事、地点、发证单位">
+          </section>
+
+          <section class="panel">
+            <h2 class="panel-title">方向</h2>
+            <div class="chip-grid" id="mobileCategoryFilters"></div>
+          </section>
+
+          <section class="panel">
+            <h2 class="panel-title">结果</h2>
+            <div class="chip-grid" id="mobileAwardFilters"></div>
+          </section>
+
+          <section class="panel filter-story">
+            <h2 class="panel-title">
+              <span>当前精选</span>
+              <button class="mini-reset" id="mobileResetFilters" type="button">清空</button>
+            </h2>
+            <div class="filter-summary" id="mobileFilterStory"></div>
+          </section>
+        </section>
+
+        <section aria-label="年度时间线">
+          <div class="section-head">
+            <div>
+              <h3>成长时间线</h3>
+              <p>按年度聚合赛事密度和代表成果。</p>
+            </div>
+          </div>
+          <div class="timeline" id="timeline"></div>
+        </section>
+
+        <section aria-label="奖项列表">
+          <div class="section-head">
+            <div>
+              <h3>奖项清单</h3>
+              <p><span id="resultCount">20</span> 条记录</p>
+            </div>
+            <select class="select" id="sortSelect" aria-label="排序">
+              <option value="date-desc">时间从近到远</option>
+              <option value="date-asc">时间从远到近</option>
+              <option value="award">奖项优先</option>
+            </select>
+          </div>
+          <div class="awards" id="awardGrid"></div>
+          <div class="empty" id="emptyState">没有匹配的记录</div>
+        </section>
+
+        <section aria-label="证书原件">
+          <div class="pdf-card">
+            <div>
+              <h4>马侨屿同学历年比赛获奖证书</h4>
+              <p>包含 20 项获奖记录及证书缩略图。点击展开后查看 4 页表格，需要完整文件可直接下载 PDF。</p>
+              <div class="pdf-actions">
+                <button class="text-btn primary" id="togglePdfPreview" type="button">展开预览</button>
+                <a class="text-btn" href="assets/ma-qiaoyu-awards-table.pdf" download="马侨屿同学历年比赛获奖证书.pdf">下载 PDF</a>
+              </div>
+            </div>
+          </div>
+          <div class="pdf-pages" id="pdfPages"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-panel">
+      <div class="modal-bar">
+        <p class="modal-title" id="modalTitle">证书原件</p>
+        <div class="modal-tools">
+          <button class="icon-btn" id="prevPage" type="button" title="上一页">‹</button>
+          <button class="icon-btn" id="nextPage" type="button" title="下一页">›</button>
+          <button class="icon-btn" id="closeModal" type="button" title="关闭">×</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <img id="modalImage" src="assets/certificates/award-01.jpg" alt="证书原件">
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">已复制</div>
+
+  <script>
+    const awards = [
+      { id: 1, event: "第 14 届沈阳市青少年机器人竞赛 RIC 普及赛（小学组）", award: "一等奖", date: "2023 年 5 月", ym: 202305, place: "沈阳", category: "机器人", issuers: ["沈阳市科学技术协会", "沈阳市教育局", "沈阳市科学技术局"], page: 1, level: "top" },
+      { id: 2, event: "第二十届辽宁省青少年机器人竞赛暨 2023 年辽宁省青少年创意编程活动 RIC 项目小学组", award: "二等奖", date: "2023 年 7 月", ym: 202307, place: "沈阳", category: "机器人", issuers: ["辽宁省科学技术协会", "辽宁省教育厅"], page: 1, level: "second" },
+      { id: 3, event: "第七届全国青少年无人机大赛（全国选拔赛广东站）旋翼类“蜂鸟行动”赛小学组", award: "一等奖", date: "2023 年 7 月", ym: 202307, place: "广东", category: "无人机", issuers: ["中国航空学会"], page: 1, level: "top" },
+      { id: 4, event: "第七届全国青少年无人机大赛（总决赛）“蜂鸟行动”赛（小学组）", award: "三等奖", date: "2023 年 8 月", ym: 202308, place: "重庆", category: "无人机", issuers: ["中国航空学会"], page: 1, level: "third" },
+      { id: 5, event: "2023 Botball Asia Preliminary Round（新秀级）", award: "一等奖", date: "2023 年 8 月", ym: 202308, place: "北京", category: "机器人", issuers: ["Botball Asia"], page: 1, level: "top" },
+      { id: 6, event: "2023 世界机器人大会选拔赛 cSuper AI 超级轨迹赛 - 星际联盟赛项沈阳市选拔赛", award: "一等奖", date: "2023 年 12 月", ym: 202312, place: "沈阳", category: "机器人", issuers: ["中国电子学会"], page: 1, level: "top" },
+      { id: 7, event: "青少年人工智能编程水平测试（Python）", award: "四级", date: "2023 年 12 月", ym: 202312, place: "沈阳", category: "AI 编程", issuers: ["中国电子教育学会", "工业和信息化部教育与考试中心"], page: 2, level: "cert" },
+      { id: 8, event: "第三十九届沈阳市青少年科技创新大赛小学生科技创新项目", award: "二等奖", date: "2024 年 4 月", ym: 202404, place: "沈阳", category: "科技创新", issuers: ["沈阳市科学技术协会", "沈阳市教育局", "沈阳市科学技术局"], page: 2, level: "second" },
+      { id: 9, event: "第 15 届沈阳市青少年机器人竞赛 RIC 普及联赛（小学组）", award: "一等奖", date: "2024 年 5 月", ym: 202405, place: "沈阳", category: "机器人", issuers: ["沈阳市科学技术协会", "沈阳市教育局", "沈阳市科学技术局"], page: 2, level: "top" },
+      { id: 10, event: "第七届全国青少年人工智能创新挑战赛选拔赛机器人工程设计专项赛", award: "二等奖", date: "2024 年 7 月", ym: 202407, place: "北京", category: "机器人", issuers: ["中国少年儿童发展服务中心"], page: 2, level: "second" },
+      { id: 11, event: "第 21 届辽宁省青少年机器人竞赛 RIC 项目小学组", award: "一等奖", date: "2024 年 8 月", ym: 202408, place: "沈阳", category: "机器人", issuers: ["辽宁省科学技术协会", "辽宁省教育厅"], page: 2, level: "top" },
+      { id: 12, event: "2024-2025 VEX 机器人亚洲公开赛华北大区赛 - VIQRC 赛项小学组", award: "一等奖", date: "2024 年 10 月", ym: 202410, place: "秦皇岛", category: "机器人", issuers: ["VEX 亚洲公开赛主委会", "爱因斯坦联盟（中国）"], page: 3, level: "top" },
+      { id: 13, event: "青少年机器人技术等级考试", award: "三级", date: "2024 年 10 月", ym: 202410, place: "沈阳", category: "机器人", issuers: ["中国电子学会"], page: 3, level: "cert" },
+      { id: 14, event: "2024 世界机器人大赛青少年机器人技术等级考试大连锦标赛 Super AI 超级轨迹赛", award: "一等奖", date: "2024 年 11 月", ym: 202411, place: "大连", category: "机器人", issuers: ["中国电子学会"], page: 3, level: "top" },
+      { id: 15, event: "2024 青少年科技菁英汇人工智能与“我的航天梦想”挑战暨交流活动", award: "金奖", date: "2024 年 12 月", ym: 202412, place: "北京", category: "科技创新", issuers: ["中国国际科学技术合作协会", "北京科技教育促进会"], page: 3, level: "top" },
+      { id: 16, event: "2024 年沈阳市中小学生信息素养提升实践活动（挑战类-智能机器人）项目小学组", award: "一等奖", date: "2024 年 12 月", ym: 202412, place: "沈阳", category: "信息素养", issuers: ["沈阳市教育局"], page: 3, level: "top" },
+      { id: 17, event: "2024 世界机器人大赛总决赛青少年机器人设计大赛 Super AI 超级轨迹赛 - 星际穿越赛项", award: "三等奖", date: "2025 年 1 月", ym: 202501, place: "郑州", category: "机器人", issuers: ["中国电子学会"], page: 3, level: "third" },
+      { id: 18, event: "2024-2025 VEX 机器人亚洲公开赛总决赛 - VIQRC 赛项小学组", award: "二等奖", date: "2025 年 2 月", ym: 202502, place: "台州", category: "机器人", issuers: ["VEX 亚洲公开赛主委会", "爱因斯坦联盟（中国）"], page: 4, level: "second" },
+      { id: 19, event: "辽宁省第二十六届中小学生信息素养提升实践活动", award: "二等奖", date: "2025 年 06 月", ym: 202506, place: "沈阳", category: "信息素养", issuers: ["辽宁省电化教育馆"], page: 4, level: "second" },
+      { id: 20, event: "青少年机器人技术等级考试", award: "四级", date: "2025 年 09 月", ym: 202509, place: "沈阳", category: "机器人", issuers: ["中国电子学会"], page: 4, level: "cert" }
+    ];
+
+    const certificateImages = awards.map((item) => ({
+      id: item.id,
+      src: `assets/certificates/award-${String(item.id).padStart(2, "0")}.jpg`,
+      thumb: `assets/certificates/thumbs/award-${String(item.id).padStart(2, "0")}.jpg`,
+      label: `第 ${item.id} 项证书`,
+      title: item.event
+    }));
+    const pdfTablePages = [1, 2, 3, 4].map((page) => ({
+      page,
+      src: `assets/certificate-page-${page}.png`,
+      label: `PDF 表格第 ${page} 页`
+    }));
+
+    const state = {
+      category: "全部",
+      award: "全部",
+      query: "",
+      sort: "date-desc",
+      modalCert: 1,
+      modalKind: "cert",
+      filterExpanded: false
+    };
+
+    const categoryFilters = document.querySelector("#categoryFilters");
+    const awardFilters = document.querySelector("#awardFilters");
+    const mobileCategoryFilters = document.querySelector("#mobileCategoryFilters");
+    const mobileAwardFilters = document.querySelector("#mobileAwardFilters");
+    const certificateStrip = document.querySelector("#certificateStrip");
+    const mobileCertificateStrip = document.querySelector("#mobileCertificateStrip");
+    const awardGrid = document.querySelector("#awardGrid");
+    const resultCount = document.querySelector("#resultCount");
+    const emptyState = document.querySelector("#emptyState");
+    const searchInput = document.querySelector("#searchInput");
+    const mobileSearchInput = document.querySelector("#mobileSearchInput");
+    const sortSelect = document.querySelector("#sortSelect");
+    const stats = document.querySelector("#stats");
+    const timeline = document.querySelector("#timeline");
+    const pdfPages = document.querySelector("#pdfPages");
+    const togglePdfPreview = document.querySelector("#togglePdfPreview");
+    const filterStory = document.querySelector("#filterStory");
+    const resetFilters = document.querySelector("#resetFilters");
+    const mobileFilterStory = document.querySelector("#mobileFilterStory");
+    const mobileResetFilters = document.querySelector("#mobileResetFilters");
+    const modal = document.querySelector("#modal");
+    const modalImage = document.querySelector("#modalImage");
+    const modalTitle = document.querySelector("#modalTitle");
+    const toast = document.querySelector("#toast");
+
+    const awardRank = {
+      "金奖": 0,
+      "一等奖": 1,
+      "二等奖": 2,
+      "三等奖": 3,
+      "四级": 4,
+      "三级": 5
+    };
+
+    function unique(values) {
+      return [...new Set(values)];
+    }
+
+    function countFor(currentKey, value) {
+      const query = state.query.trim().toLowerCase();
+      return awards
+        .filter((item) => currentKey === "category" ? value === "全部" || item.category === value : state.category === "全部" || item.category === state.category)
+        .filter((item) => currentKey === "award" ? value === "全部" || item.award === value : state.award === "全部" || item.award === state.award)
+        .filter((item) => !query || normalized(item).includes(query))
+        .length;
+    }
+
+    function buildChips(target, values, currentKey) {
+      target.innerHTML = "";
+      values.forEach((value) => {
+        const count = countFor(currentKey, value);
+        if (value !== "全部" && count === 0) return;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `chip ${state[currentKey] === value ? "active" : ""}`;
+        button.setAttribute("aria-pressed", state[currentKey] === value ? "true" : "false");
+        button.innerHTML = `<span>${value}</span><span class="chip-count">${count}</span>`;
+        button.addEventListener("click", () => {
+          state[currentKey] = value;
+          state.filterExpanded = false;
+          render();
+        });
+        target.append(button);
+      });
+    }
+
+    function renderStats() {
+      const topAwards = awards.filter((item) => item.award === "一等奖" || item.award === "金奖").length;
+      const cities = unique(awards.map((item) => item.place)).length;
+      const yearCount = unique(awards.map((item) => Math.floor(item.ym / 100))).length;
+      const national = awards.filter((item) => /全国|世界|亚洲|VEX|Botball/.test(item.event)).length;
+      const items = [
+        ["20", "获奖与认证记录"],
+        [String(topAwards), "一等奖及金奖"],
+        [String(yearCount), "连续年份"],
+        [String(cities), "参赛城市足迹"],
+        [String(national), "全国/国际类赛事线索"]
+      ];
+      stats.innerHTML = items.map(([value, label]) => `
+        <div class="stat">
+          <strong>${value}</strong>
+          <span>${label}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderTimeline() {
+      const byYear = new Map();
+      awards.forEach((item) => {
+        const year = String(Math.floor(item.ym / 100));
+        if (!byYear.has(year)) byYear.set(year, []);
+        byYear.get(year).push(item);
+      });
+      const summaries = {
+        "2023": "从沈阳市机器人竞赛起步，进入省级机器人竞赛、全国无人机赛与世界机器人大会选拔赛。",
+        "2024": "赛事密度显著提升，覆盖 VEX、世界机器人大赛、科技创新和信息素养实践活动。",
+        "2025": "延续到全国总决赛、省级信息素养活动与机器人等级考试四级。"
+      };
+      timeline.innerHTML = [...byYear.entries()].map(([year, list]) => `
+        <article class="timeline-item">
+          <b>${year}</b>
+          <span>${list.length} 项记录。${summaries[year]}</span>
+        </article>
+      `).join("");
+    }
+
+    function normalized(item) {
+      return [
+        item.event,
+        item.award,
+        item.date,
+        item.place,
+        item.category,
+        item.issuers.join(" ")
+      ].join(" ").toLowerCase();
+    }
+
+    function getFiltered() {
+      const query = state.query.trim().toLowerCase();
+      return awards
+        .filter((item) => state.category === "全部" || item.category === state.category)
+        .filter((item) => state.award === "全部" || item.award === state.award)
+        .filter((item) => !query || normalized(item).includes(query))
+        .sort((a, b) => {
+          if (state.sort === "date-asc") return a.ym - b.ym || a.id - b.id;
+          if (state.sort === "award") return (awardRank[a.award] ?? 9) - (awardRank[b.award] ?? 9) || b.ym - a.ym;
+          return b.ym - a.ym || b.id - a.id;
+        });
+    }
+
+    function renderAwards() {
+      const filtered = getFiltered();
+      resultCount.textContent = String(filtered.length);
+      emptyState.classList.toggle("show", filtered.length === 0);
+      awardGrid.innerHTML = filtered.map((item) => `
+        <article class="award-card" data-level="${item.level}">
+          <div class="card-meta">
+            <span class="serial">${item.id}</span>
+            <span>${item.date} · ${item.place}</span>
+          </div>
+          <div>
+            <h4 class="award-title">${item.event}</h4>
+            <div class="tag-row" aria-label="标签">
+              <span class="tag">${item.award}</span>
+              <span class="tag">${item.category}</span>
+              ${item.issuers.map((issuer) => `<span class="tag">${issuer}</span>`).join("")}
+            </div>
+          </div>
+          <div class="award-footer">
+            <span>证书第 ${item.id} 项</span>
+            <button class="link-btn" type="button" data-open-cert="${item.id}">查看原件</button>
+          </div>
+        </article>
+      `).join("");
+      awardGrid.querySelectorAll("[data-open-cert]").forEach((button) => {
+        button.addEventListener("click", () => openModal(Number(button.dataset.openCert)));
+      });
+    }
+
+    function renderCertificateStrip() {
+      const html = certificateImages.map((cert) => `
+        <button class="cert-thumb" type="button" data-strip-cert="${cert.id}" title="${cert.title}">
+          <img src="${cert.thumb}" alt="${cert.label}" loading="lazy" decoding="async">
+          <span>${cert.id}</span>
+        </button>
+      `).join("");
+      [certificateStrip, mobileCertificateStrip].filter(Boolean).forEach((target) => {
+        target.innerHTML = html;
+        target.querySelectorAll("[data-strip-cert]").forEach((button) => {
+          button.addEventListener("click", () => openModal(Number(button.dataset.stripCert)));
+        });
+      });
+    }
+
+    function renderFilterStory() {
+      const filtered = getFiltered();
+      const labels = [];
+      if (state.category !== "全部") labels.push(state.category);
+      if (state.award !== "全部") labels.push(state.award);
+      if (state.query.trim()) labels.push(`“${state.query.trim()}”`);
+      const title = labels.length ? labels.join(" · ") : "全部记录";
+      const visibleItems = state.filterExpanded ? filtered : filtered.slice(0, 3);
+      const topLine = filtered.length ? `当前筛选下共有 ${filtered.length} 条内容，点击下方条目可直接查看对应证书页。` : "当前条件下没有内容，可以清空筛选或换一个关键词。";
+      const toggleLabel = state.filterExpanded ? "收起" : `展开全部 ${filtered.length} 条`;
+      const html = `
+        <div>
+          <strong>${filtered.length}</strong>
+          <p>${title}</p>
+        </div>
+        <p>${topLine}</p>
+        ${filtered.length > 3 ? `<button class="mini-toggle" type="button" data-toggle-mini>${toggleLabel}</button>` : ""}
+        <div class="mini-list">
+          ${visibleItems.map((item) => `
+            <button class="mini-item" type="button" data-mini-cert="${item.id}" title="${item.event}">
+              <b>${item.event}</b>
+              <span>${item.award} · ${item.date} · 第 ${item.id} 项</span>
+            </button>
+          `).join("")}
+        </div>
+      `;
+      [filterStory, mobileFilterStory].filter(Boolean).forEach((target) => {
+        target.innerHTML = html;
+        target.querySelectorAll("[data-mini-cert]").forEach((button) => {
+          button.addEventListener("click", () => openModal(Number(button.dataset.miniCert)));
+        });
+        target.querySelectorAll("[data-toggle-mini]").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.filterExpanded = !state.filterExpanded;
+            renderFilterStory();
+          });
+        });
+      });
+    }
+
+    function renderPdfPages() {
+      pdfPages.innerHTML = pdfTablePages.map((page) => `
+        <button class="page-tile" type="button" data-pdf-page="${page.page}" title="打开 ${page.label}">
+          <img src="${page.src}" alt="${page.label}" loading="lazy" decoding="async">
+          <span>${page.label}</span>
+        </button>
+      `).join("");
+      pdfPages.querySelectorAll("[data-pdf-page]").forEach((button) => {
+        button.addEventListener("click", () => openPdfModal(Number(button.dataset.pdfPage)));
+      });
+    }
+
+    function togglePdfPages() {
+      const open = pdfPages.classList.toggle("open");
+      togglePdfPreview.textContent = open ? "收起预览" : "展开预览";
+      if (open) pdfPages.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function openModal(certId) {
+      state.modalCert = Math.min(certificateImages.length, Math.max(1, certId));
+      state.modalKind = "cert";
+      const cert = certificateImages.find((item) => item.id === state.modalCert);
+      modalImage.src = cert.src;
+      modalImage.alt = `${cert.label}原件`;
+      modalTitle.textContent = `证书原件 · 第 ${state.modalCert} 项`;
+      modal.classList.add("open");
+    }
+
+    function openPdfModal(page) {
+      const currentPage = Math.min(pdfTablePages.length, Math.max(1, page));
+      const item = pdfTablePages.find((entry) => entry.page === currentPage);
+      state.modalCert = currentPage;
+      state.modalKind = "pdf";
+      modalImage.src = item.src;
+      modalImage.alt = `${item.label}预览`;
+      modalTitle.textContent = `证书 PDF 表格 · 第 ${currentPage} 页`;
+      modal.classList.add("open");
+    }
+
+    function closeModal() {
+      modal.classList.remove("open");
+    }
+
+    function changePage(delta) {
+      if (state.modalKind === "pdf") {
+        openPdfModal(state.modalCert + delta);
+      } else {
+        openModal(state.modalCert + delta);
+      }
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1600);
+    }
+
+    async function copySummary() {
+      const summary = "马侨屿同学在 2023-2025 年间累计获得 20 项机器人、无人机、人工智能编程、信息素养与科技创新相关奖项及等级认证，其中包含 9 项一等奖、1 项金奖，并参与世界机器人大赛、VEX 机器人亚洲公开赛、全国青少年无人机大赛等赛事。";
+      try {
+        await navigator.clipboard.writeText(summary);
+        showToast("荣誉简介已复制");
+      } catch {
+        const textarea = document.createElement("textarea");
+        textarea.value = summary;
+        document.body.append(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        showToast("荣誉简介已复制");
+      }
+    }
+
+    function render() {
+      buildChips(categoryFilters, ["全部", ...unique(awards.map((item) => item.category))], "category");
+      buildChips(awardFilters, ["全部", ...unique(awards.map((item) => item.award))], "award");
+      buildChips(mobileCategoryFilters, ["全部", ...unique(awards.map((item) => item.category))], "category");
+      buildChips(mobileAwardFilters, ["全部", ...unique(awards.map((item) => item.award))], "award");
+      renderAwards();
+      renderFilterStory();
+    }
+
+    searchInput.addEventListener("input", (event) => {
+      state.query = event.target.value;
+      state.filterExpanded = false;
+      mobileSearchInput.value = state.query;
+      render();
+    });
+
+    mobileSearchInput.addEventListener("input", (event) => {
+      state.query = event.target.value;
+      state.filterExpanded = false;
+      searchInput.value = state.query;
+      render();
+    });
+
+    sortSelect.addEventListener("change", (event) => {
+      state.sort = event.target.value;
+      render();
+    });
+
+    resetFilters.addEventListener("click", () => {
+      state.category = "全部";
+      state.award = "全部";
+      state.query = "";
+      state.filterExpanded = false;
+      searchInput.value = "";
+      mobileSearchInput.value = "";
+      render();
+    });
+
+    mobileResetFilters.addEventListener("click", () => {
+      state.category = "全部";
+      state.award = "全部";
+      state.query = "";
+      state.filterExpanded = false;
+      searchInput.value = "";
+      mobileSearchInput.value = "";
+      render();
+    });
+
+    document.querySelector("#copySummary").addEventListener("click", copySummary);
+    document.querySelector("#showAllCerts").addEventListener("click", () => document.querySelector("[aria-label='证书原件']").scrollIntoView({ behavior: "smooth", block: "start" }));
+    togglePdfPreview.addEventListener("click", togglePdfPages);
+    document.querySelector("#closeModal").addEventListener("click", closeModal);
+    document.querySelector("#prevPage").addEventListener("click", () => changePage(-1));
+    document.querySelector("#nextPage").addEventListener("click", () => changePage(1));
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (!modal.classList.contains("open")) return;
+      if (event.key === "Escape") closeModal();
+      if (event.key === "ArrowLeft") changePage(-1);
+      if (event.key === "ArrowRight") changePage(1);
+    });
+
+    renderStats();
+    renderTimeline();
+    renderCertificateStrip();
+    renderPdfPages();
+    render();
+  </script>
+</body>
+</html>
