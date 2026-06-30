@@ -832,8 +832,10 @@
     }
 
     .modal-frame img {
-      width: 100%;
-      height: 100%;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
       display: block;
       background: #fff;
@@ -1297,6 +1299,7 @@
     const mobileResetFilters = document.querySelector("#mobileResetFilters");
     const modal = document.querySelector("#modal");
     const modalBody = document.querySelector("#modalBody");
+    const modalFrame = document.querySelector(".modal-frame");
     const modalImage = document.querySelector("#modalImage");
     const modalTitle = document.querySelector("#modalTitle");
     const toast = document.querySelector("#toast");
@@ -1517,6 +1520,7 @@
       modalImage.alt = `${cert.label}原件`;
       modalTitle.textContent = `证书原件 · 第 ${state.modalCert} 项`;
       modal.classList.add("open");
+      requestAnimationFrame(fitModalImage);
     }
 
     function openPdfModal(page) {
@@ -1528,6 +1532,7 @@
       modalImage.alt = `${item.label}预览`;
       modalTitle.textContent = `证书 PDF 表格 · 第 ${currentPage} 页`;
       modal.classList.add("open");
+      requestAnimationFrame(fitModalImage);
     }
 
     function closeModal() {
@@ -1553,6 +1558,17 @@
       swipeStart = null;
       if (Math.abs(deltaX) < 52 || Math.abs(deltaX) < Math.abs(deltaY) * 1.35) return;
       changePage(deltaX < 0 ? 1 : -1);
+    }
+
+    function fitModalImage() {
+      if (!modal.classList.contains("open") || !modalImage.naturalWidth || !modalImage.naturalHeight) return;
+      const style = getComputedStyle(modalFrame);
+      const availableWidth = modalFrame.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      const availableHeight = modalFrame.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+      if (availableWidth <= 0 || availableHeight <= 0) return;
+      const scale = Math.min(availableWidth / modalImage.naturalWidth, availableHeight / modalImage.naturalHeight);
+      modalImage.style.width = `${Math.floor(modalImage.naturalWidth * scale)}px`;
+      modalImage.style.height = `${Math.floor(modalImage.naturalHeight * scale)}px`;
     }
 
     function showToast(message) {
@@ -1653,6 +1669,8 @@
     modalBody.addEventListener("pointercancel", () => {
       swipeStart = null;
     });
+    modalImage.addEventListener("load", fitModalImage);
+    window.addEventListener("resize", fitModalImage);
     window.addEventListener("keydown", (event) => {
       if (!modal.classList.contains("open")) return;
       if (event.key === "Escape") closeModal();
