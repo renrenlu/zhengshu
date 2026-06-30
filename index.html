@@ -1096,7 +1096,7 @@
     <div class="shell">
       <aside class="sidebar" aria-label="筛选">
         <section class="panel certificate-strip">
-          <h2 class="panel-title">证书</h2>
+          <h2 class="panel-title">证书概览</h2>
           <div class="cert-strip-track" id="certificateStrip"></div>
         </section>
 
@@ -1108,11 +1108,6 @@
         <section class="panel">
           <h2 class="panel-title">方向</h2>
           <div class="chip-grid" id="categoryFilters"></div>
-        </section>
-
-        <section class="panel">
-          <h2 class="panel-title">结果</h2>
-          <div class="chip-grid" id="awardFilters"></div>
         </section>
 
         <section class="panel filter-story">
@@ -1139,7 +1134,7 @@
 
         <section class="mobile-filter" aria-label="手机筛选">
           <section class="panel certificate-strip">
-            <h2 class="panel-title">证书</h2>
+            <h2 class="panel-title">证书概览</h2>
             <div class="cert-strip-track" id="mobileCertificateStrip"></div>
           </section>
 
@@ -1151,11 +1146,6 @@
           <section class="panel">
             <h2 class="panel-title">方向</h2>
             <div class="chip-grid" id="mobileCategoryFilters"></div>
-          </section>
-
-          <section class="panel">
-            <h2 class="panel-title">结果</h2>
-            <div class="chip-grid" id="mobileAwardFilters"></div>
           </section>
 
           <section class="panel filter-story">
@@ -1278,9 +1268,7 @@
     };
 
     const categoryFilters = document.querySelector("#categoryFilters");
-    const awardFilters = document.querySelector("#awardFilters");
     const mobileCategoryFilters = document.querySelector("#mobileCategoryFilters");
-    const mobileAwardFilters = document.querySelector("#mobileAwardFilters");
     const certificateStrip = document.querySelector("#certificateStrip");
     const mobileCertificateStrip = document.querySelector("#mobileCertificateStrip");
     const awardGrid = document.querySelector("#awardGrid");
@@ -1596,9 +1584,7 @@
 
     function render() {
       buildChips(categoryFilters, ["全部", ...unique(awards.map((item) => item.category))], "category");
-      buildChips(awardFilters, ["全部", ...unique(awards.map((item) => item.award))], "award");
       buildChips(mobileCategoryFilters, ["全部", ...unique(awards.map((item) => item.category))], "category");
-      buildChips(mobileAwardFilters, ["全部", ...unique(awards.map((item) => item.award))], "award");
       renderAwards();
       renderFilterStory();
     }
