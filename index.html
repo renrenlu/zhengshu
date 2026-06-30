@@ -1352,11 +1352,11 @@
       const yearCount = unique(awards.map((item) => Math.floor(item.ym / 100))).length;
       const national = awards.filter((item) => /全国|世界|亚洲|VEX|Botball/.test(item.event)).length;
       const items = [
-        ["20", "获奖与认证记录"],
-        [String(topAwards), "一等奖及金奖"],
-        [String(yearCount), "连续年份"],
-        [String(cities), "参赛城市足迹"],
-        [String(national), "全国/国际类赛事线索"]
+        ["20 项", "获奖与认证记录"],
+        [`${topAwards} 项`, "一等奖及金奖"],
+        [`${yearCount} 年`, "连续年份"],
+        [`${cities} 城`, "参赛城市足迹"],
+        [`${national} 项`, "全国/国际类赛事线索"]
       ];
       stats.innerHTML = items.map(([value, label]) => `
         <div class="stat">
