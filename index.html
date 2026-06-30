@@ -814,7 +814,7 @@
       place-items: center;
       padding: 16px;
       background: #e8edf1;
-      touch-action: pan-y;
+      touch-action: none;
       user-select: none;
     }
 
@@ -840,6 +840,8 @@
       display: block;
       background: #fff;
       pointer-events: none;
+      transform-origin: center center;
+      will-change: transform;
     }
 
     .toast {
@@ -1294,6 +1296,10 @@
     const toast = document.querySelector("#toast");
     const preloadedCerts = new Set();
     let swipeStart = null;
+    let gestureMode = "idle";
+    let pinchStart = null;
+    let panStart = null;
+    const zoomState = { scale: 1, x: 0, y: 0 };
 
     const awardRank = {
       "金奖": 0,
@@ -1511,6 +1517,7 @@
       modalImage.alt = `${cert.label}原件`;
       modalTitle.textContent = `证书原件 · 第 ${state.modalCert} 项`;
       modal.classList.add("open");
+      resetZoom();
       preloadCertificatesAround(state.modalCert);
       requestAnimationFrame(fitModalImage);
     }
@@ -1524,6 +1531,7 @@
       modalImage.alt = `${item.label}预览`;
       modalTitle.textContent = `证书 PDF 表格 · 第 ${currentPage} 页`;
       modal.classList.add("open");
+      resetZoom();
       requestAnimationFrame(fitModalImage);
     }
 
@@ -1558,12 +1566,55 @@
     }
 
     function finishSwipe(clientX, clientY) {
-      if (!swipeStart || !modal.classList.contains("open")) return;
+      if (!swipeStart || !modal.classList.contains("open") || zoomState.scale > 1.01) return;
       const deltaX = clientX - swipeStart.x;
       const deltaY = clientY - swipeStart.y;
       swipeStart = null;
       if (Math.abs(deltaX) < 52 || Math.abs(deltaX) < Math.abs(deltaY) * 1.35) return;
       changePage(deltaX < 0 ? 1 : -1);
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function touchDistance(touches) {
+      const deltaX = touches[0].clientX - touches[1].clientX;
+      const deltaY = touches[0].clientY - touches[1].clientY;
+      return Math.hypot(deltaX, deltaY);
+    }
+
+    function clampZoomPosition() {
+      const style = getComputedStyle(modalFrame);
+      const frameWidth = modalFrame.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      const frameHeight = modalFrame.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+      const maxX = Math.max(0, (modalImage.offsetWidth * zoomState.scale - frameWidth) / 2);
+      const maxY = Math.max(0, (modalImage.offsetHeight * zoomState.scale - frameHeight) / 2);
+      zoomState.x = clamp(zoomState.x, -maxX, maxX);
+      zoomState.y = clamp(zoomState.y, -maxY, maxY);
+    }
+
+    function applyZoom() {
+      clampZoomPosition();
+      modalImage.style.transform = `translate3d(${zoomState.x}px, ${zoomState.y}px, 0) scale(${zoomState.scale})`;
+    }
+
+    function resetZoom() {
+      zoomState.scale = 1;
+      zoomState.x = 0;
+      zoomState.y = 0;
+      applyZoom();
+    }
+
+    function beginPan(clientX, clientY) {
+      panStart = { x: clientX, y: clientY, imageX: zoomState.x, imageY: zoomState.y };
+    }
+
+    function updatePan(clientX, clientY) {
+      if (!panStart) return;
+      zoomState.x = panStart.imageX + clientX - panStart.x;
+      zoomState.y = panStart.imageY + clientY - panStart.y;
+      applyZoom();
     }
 
     function fitModalImage() {
@@ -1575,6 +1626,7 @@
       const scale = Math.min(availableWidth / modalImage.naturalWidth, availableHeight / modalImage.naturalHeight);
       modalImage.style.width = `${Math.floor(modalImage.naturalWidth * scale)}px`;
       modalImage.style.height = `${Math.floor(modalImage.naturalHeight * scale)}px`;
+      applyZoom();
     }
 
     function showToast(message) {
@@ -1656,22 +1708,79 @@
       if (event.target === modal) closeModal();
     });
     modalBody.addEventListener("touchstart", (event) => {
-      const touch = event.changedTouches[0];
-      beginSwipe(touch.clientX, touch.clientY);
-    }, { passive: true });
+      if (event.touches.length >= 2) {
+        event.preventDefault();
+        gestureMode = "pinch";
+        swipeStart = null;
+        panStart = null;
+        pinchStart = {
+          distance: touchDistance(event.touches),
+          scale: zoomState.scale
+        };
+        return;
+      }
+      const touch = event.touches[0];
+      if (zoomState.scale > 1.01) {
+        event.preventDefault();
+        gestureMode = "pan";
+        beginPan(touch.clientX, touch.clientY);
+      } else {
+        gestureMode = "swipe";
+        beginSwipe(touch.clientX, touch.clientY);
+      }
+    }, { passive: false });
+    modalBody.addEventListener("touchmove", (event) => {
+      if (gestureMode === "pinch" && event.touches.length >= 2 && pinchStart) {
+        event.preventDefault();
+        zoomState.scale = clamp(pinchStart.scale * touchDistance(event.touches) / pinchStart.distance, 1, 3.2);
+        if (zoomState.scale <= 1.01) {
+          zoomState.scale = 1;
+          zoomState.x = 0;
+          zoomState.y = 0;
+        }
+        applyZoom();
+        return;
+      }
+      if (gestureMode === "pan" && event.touches.length === 1) {
+        event.preventDefault();
+        const touch = event.touches[0];
+        updatePan(touch.clientX, touch.clientY);
+      }
+    }, { passive: false });
     modalBody.addEventListener("touchend", (event) => {
-      const touch = event.changedTouches[0];
-      finishSwipe(touch.clientX, touch.clientY);
+      if (gestureMode === "swipe" && event.changedTouches.length) {
+        const touch = event.changedTouches[0];
+        finishSwipe(touch.clientX, touch.clientY);
+      }
+      if (event.touches.length === 0) {
+        gestureMode = "idle";
+        pinchStart = null;
+        panStart = null;
+        swipeStart = null;
+      }
     }, { passive: true });
     modalBody.addEventListener("pointerdown", (event) => {
-      if (event.pointerType === "mouse" && event.button !== 0) return;
-      beginSwipe(event.clientX, event.clientY);
+      if (event.pointerType !== "mouse" || event.button !== 0) return;
+      if (zoomState.scale > 1.01) {
+        beginPan(event.clientX, event.clientY);
+      } else {
+        beginSwipe(event.clientX, event.clientY);
+      }
+    });
+    modalBody.addEventListener("pointermove", (event) => {
+      if (event.pointerType === "mouse" && panStart && zoomState.scale > 1.01) updatePan(event.clientX, event.clientY);
     });
     modalBody.addEventListener("pointerup", (event) => {
+      if (event.pointerType !== "mouse") return;
+      if (panStart) {
+        panStart = null;
+        return;
+      }
       finishSwipe(event.clientX, event.clientY);
     });
     modalBody.addEventListener("pointercancel", () => {
       swipeStart = null;
+      panStart = null;
     });
     modalImage.addEventListener("load", fitModalImage);
     window.addEventListener("resize", fitModalImage);
