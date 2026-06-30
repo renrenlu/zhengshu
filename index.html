@@ -1212,7 +1212,7 @@
       </div>
       <div class="modal-body" id="modalBody">
         <div class="modal-frame">
-          <img id="modalImage" src="assets/certificates/award-01.jpg" alt="证书原件">
+          <img id="modalImage" src="assets/certificates/previews/award-01.jpg" alt="证书原件" decoding="async">
         </div>
       </div>
     </div>
@@ -1246,7 +1246,8 @@
 
     const certificateImages = awards.map((item) => ({
       id: item.id,
-      src: `assets/certificates/award-${String(item.id).padStart(2, "0")}.jpg`,
+      src: `assets/certificates/previews/award-${String(item.id).padStart(2, "0")}.jpg`,
+      fullSrc: `assets/certificates/award-${String(item.id).padStart(2, "0")}.jpg`,
       thumb: `assets/certificates/thumbs/award-${String(item.id).padStart(2, "0")}.jpg`,
       label: `第 ${item.id} 项证书`,
       title: item.event
@@ -1291,6 +1292,7 @@
     const modalImage = document.querySelector("#modalImage");
     const modalTitle = document.querySelector("#modalTitle");
     const toast = document.querySelector("#toast");
+    const preloadedCerts = new Set();
     let swipeStart = null;
 
     const awardRank = {
@@ -1444,12 +1446,13 @@
 
     function renderFilterStory() {
       const filtered = getFiltered();
+      const storyItems = [...filtered].sort((a, b) => (awardRank[a.award] ?? 9) - (awardRank[b.award] ?? 9) || b.ym - a.ym || b.id - a.id);
       const labels = [];
       if (state.category !== "全部") labels.push(state.category);
       if (state.award !== "全部") labels.push(state.award);
       if (state.query.trim()) labels.push(`“${state.query.trim()}”`);
       const title = labels.length ? labels.join(" · ") : "全部记录";
-      const visibleItems = state.filterExpanded ? filtered : filtered.slice(0, 3);
+      const visibleItems = state.filterExpanded ? storyItems : storyItems.slice(0, 3);
       const topLine = filtered.length ? `当前筛选下共有 ${filtered.length} 条内容，点击下方条目可直接查看对应证书页。` : "当前条件下没有内容，可以清空筛选或换一个关键词。";
       const toggleLabel = state.filterExpanded ? "收起" : `展开全部 ${filtered.length} 条`;
       const html = `
@@ -1508,6 +1511,7 @@
       modalImage.alt = `${cert.label}原件`;
       modalTitle.textContent = `证书原件 · 第 ${state.modalCert} 项`;
       modal.classList.add("open");
+      preloadCertificatesAround(state.modalCert);
       requestAnimationFrame(fitModalImage);
     }
 
@@ -1533,6 +1537,20 @@
       } else {
         openModal(state.modalCert + delta);
       }
+    }
+
+    function preloadCertificate(certId) {
+      const cert = certificateImages.find((item) => item.id === certId);
+      if (!cert || preloadedCerts.has(cert.id)) return;
+      preloadedCerts.add(cert.id);
+      const image = new Image();
+      image.decoding = "async";
+      image.src = cert.src;
+      if (image.decode) image.decode().catch(() => {});
+    }
+
+    function preloadCertificatesAround(certId) {
+      [certId, certId + 1, certId - 1, certId + 2, certId - 2].forEach(preloadCertificate);
     }
 
     function beginSwipe(clientX, clientY) {
